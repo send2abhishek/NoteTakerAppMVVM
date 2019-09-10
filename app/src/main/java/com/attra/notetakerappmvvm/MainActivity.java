@@ -12,6 +12,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Toast;
 
+import com.attra.notetakerappmvvm.Activities.EditorActivity;
 import com.attra.notetakerappmvvm.Adapters.NoteDataAdapter;
 import com.attra.notetakerappmvvm.Models.NoteEntity;
 import com.attra.notetakerappmvvm.Utils.SampleDataProvider;
@@ -56,8 +57,8 @@ public class MainActivity extends AppCompatActivity implements NoteDataAdapter.L
 
         if(itemId==R.id.menu_sample){
 
-            noteEntities.addAll(SampleDataProvider.getSampleData());
-            adapter.notifyDataSetChanged();
+
+            inserSampleData();
             return true;
         }
 
@@ -71,15 +72,26 @@ public class MainActivity extends AppCompatActivity implements NoteDataAdapter.L
         return false;
     }
 
+    private void inserSampleData() {
+
+        noteEntities.addAll(SampleDataProvider.getSampleData());
+        adapter.notifyDataSetChanged();
+    }
+
     @Override
     public void onItemClick(NoteEntity noteEntity) {
 
         Toast.makeText(this,""+noteEntity.getText(),Toast.LENGTH_SHORT).show();
+        Intent intent=new Intent(this, EditorActivity.class);
+        intent.putExtra("data",noteEntity);
+        startActivity(intent);
     }
 
     @Override
     public void onClick(View v) {
 
-       Toast.makeText(this,"New note",Toast.LENGTH_SHORT).show();
+        inserSampleData();
+
+       Toast.makeText(this,"Sample Data Inserted",Toast.LENGTH_SHORT).show();
     }
 }
