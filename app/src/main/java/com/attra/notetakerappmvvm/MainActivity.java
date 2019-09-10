@@ -1,5 +1,6 @@
 package com.attra.notetakerappmvvm;
 
+import android.arch.lifecycle.ViewModelProviders;
 import android.content.Intent;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
@@ -15,7 +16,7 @@ import android.widget.Toast;
 import com.attra.notetakerappmvvm.Activities.EditorActivity;
 import com.attra.notetakerappmvvm.Adapters.NoteDataAdapter;
 import com.attra.notetakerappmvvm.Models.NoteEntity;
-import com.attra.notetakerappmvvm.Utils.SampleDataProvider;
+import com.attra.notetakerappmvvm.viewModels.MainActivityViewModel;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -26,11 +27,14 @@ public class MainActivity extends AppCompatActivity implements NoteDataAdapter.L
     private List<NoteEntity> noteEntities;
     private NoteDataAdapter adapter;
     private FloatingActionButton actionButton;
+    private MainActivityViewModel mainActivityViewModel;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        mainActivityViewModel= ViewModelProviders.of(this)
+                .get(MainActivityViewModel.class);
         noteEntities=new ArrayList<>();
         recyclerView=findViewById(R.id.activity_main_recylerView);
         actionButton=findViewById(R.id.add_new_note_fab);
@@ -74,7 +78,7 @@ public class MainActivity extends AppCompatActivity implements NoteDataAdapter.L
 
     private void inserSampleData() {
 
-        noteEntities.addAll(SampleDataProvider.getSampleData());
+        noteEntities.addAll(mainActivityViewModel.getActiveNotes());
         adapter.notifyDataSetChanged();
     }
 
