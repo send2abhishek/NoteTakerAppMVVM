@@ -5,6 +5,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.TextView;
 
+import com.attra.notetakerappmvvm.Database.Notes;
 import com.attra.notetakerappmvvm.Models.NoteEntity;
 import com.attra.notetakerappmvvm.R;
 
@@ -17,7 +18,7 @@ public class NoteViewHolder extends RecyclerView.ViewHolder {
         noteText=itemView.findViewById(R.id.note_view_textview);
     }
 
-    public void populate(final NoteEntity noteEntity, final NoteDataAdapter.ListOnClick click){
+    public void populate(final Notes noteEntity, final NoteDataAdapter.ListOnClick click){
 
         itemView.setOnClickListener(new View.OnClickListener() {
             @Override

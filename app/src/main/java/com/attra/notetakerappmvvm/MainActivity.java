@@ -1,7 +1,9 @@
 package com.attra.notetakerappmvvm;
 
+import android.arch.lifecycle.Observer;
 import android.arch.lifecycle.ViewModelProviders;
 import android.content.Intent;
+import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -15,6 +17,7 @@ import android.widget.Toast;
 
 import com.attra.notetakerappmvvm.Activities.EditorActivity;
 import com.attra.notetakerappmvvm.Adapters.NoteDataAdapter;
+import com.attra.notetakerappmvvm.Database.Notes;
 import com.attra.notetakerappmvvm.Models.NoteEntity;
 import com.attra.notetakerappmvvm.viewModels.MainActivityViewModel;
 
@@ -33,18 +36,50 @@ public class MainActivity extends AppCompatActivity implements NoteDataAdapter.L
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        mainActivityViewModel= ViewModelProviders.of(this)
-                .get(MainActivityViewModel.class);
         noteEntities=new ArrayList<>();
-        recyclerView=findViewById(R.id.activity_main_recylerView);
+
+        initViewModel();
+
+
+
         actionButton=findViewById(R.id.add_new_note_fab);
         actionButton.setOnClickListener(this);
-        adapter=new NoteDataAdapter(this,noteEntities,this);
+
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         recyclerView.setHasFixedSize(true);
         recyclerView.addItemDecoration(new DividerItemDecoration(this,
                 DividerItemDecoration.VERTICAL));
-        recyclerView.setAdapter(adapter);
+
+    }
+
+    private void initViewModel() {
+        recyclerView=findViewById(R.id.activity_main_recylerView);
+
+        Observer<List<Notes>> notesObserver=new Observer<List<Notes>>() {
+            @Override
+            public void onChanged(@Nullable List<Notes> noteEntities) {
+                noteEntities.clear();
+                noteEntities.addAll(noteEntities);
+
+
+
+                if(adapter==null){
+                    adapter=new NoteDataAdapter(MainActivity.this,noteEntities,MainActivity.this);
+                    recyclerView.setAdapter(adapter);
+                }
+                else {
+                    adapter.notifyDataSetChanged();
+                }
+
+            }
+        };
+
+
+
+        mainActivityViewModel= ViewModelProviders.of(this)
+                .get(MainActivityViewModel.class);
+
+        mainActivityViewModel.getActiveNotes().observe(MainActivity.this,notesObserver);
     }
 
 
@@ -78,16 +113,18 @@ public class MainActivity extends AppCompatActivity implements NoteDataAdapter.L
 
     private void inserSampleData() {
 
-        noteEntities.addAll(mainActivityViewModel.getActiveNotes());
-        adapter.notifyDataSetChanged();
+        //noteEntities.addAll(mainActivityViewModel.getActiveNotes());
+       // adapter.notifyDataSetChanged();
+
+        mainActivityViewModel.AddSampleDataToDatabase();
     }
 
     @Override
-    public void onItemClick(NoteEntity noteEntity) {
+    public void onItemClick(Notes noteEntity) {
 
         Toast.makeText(this,""+noteEntity.getText(),Toast.LENGTH_SHORT).show();
         Intent intent=new Intent(this, EditorActivity.class);
-        intent.putExtra("data",noteEntity);
+
         startActivity(intent);
     }
 

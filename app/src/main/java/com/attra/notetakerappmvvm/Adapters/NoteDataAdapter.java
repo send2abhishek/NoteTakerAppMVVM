@@ -7,6 +7,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.attra.notetakerappmvvm.Database.Notes;
 import com.attra.notetakerappmvvm.Models.NoteEntity;
 import com.attra.notetakerappmvvm.R;
 
@@ -14,12 +15,12 @@ import java.util.List;
 
 public class NoteDataAdapter extends RecyclerView.Adapter<NoteViewHolder> {
 
-    private List<NoteEntity> entityList;
+    private List<Notes> entityList;
     private Context context;
     private LayoutInflater layoutInflater;
     private ListOnClick listOnClick;
 
-    public NoteDataAdapter(Context context,List<NoteEntity> entityList,ListOnClick listOnClick) {
+    public NoteDataAdapter(Context context, List<Notes> entityList, ListOnClick listOnClick) {
         this.entityList = entityList;
         this.context = context;
         layoutInflater=layoutInflater.from(context);
@@ -37,7 +38,7 @@ public class NoteDataAdapter extends RecyclerView.Adapter<NoteViewHolder> {
     @Override
     public void onBindViewHolder(@NonNull NoteViewHolder noteViewHolder, int pos) {
 
-        NoteEntity entity=entityList.get(pos);
+        Notes entity=entityList.get(pos);
 
         noteViewHolder.populate(entity,listOnClick);
     }
@@ -49,6 +50,6 @@ public class NoteDataAdapter extends RecyclerView.Adapter<NoteViewHolder> {
 
     public interface ListOnClick{
 
-        void onItemClick(NoteEntity noteEntity);
+        void onItemClick(Notes noteEntity);
     }
 }

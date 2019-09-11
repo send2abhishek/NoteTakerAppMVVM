@@ -1,5 +1,6 @@
 package com.attra.notetakerappmvvm.Utils;
 
+import com.attra.notetakerappmvvm.Database.Notes;
 import com.attra.notetakerappmvvm.Models.NoteEntity;
 
 import java.util.ArrayList;
@@ -31,6 +32,17 @@ public class SampleDataProvider {
         noteEntities.add(new NoteEntity(1,getDate(0),SAMPLE_TEXT1));
         noteEntities.add(new NoteEntity(1,getDate(-1),SAMPLE_TEXT2));
         noteEntities.add(new NoteEntity(1,getDate(-2),SAMPLE_TEXT3));
+
+        return noteEntities;
+    }
+
+    public static List<Notes> getSampleDataForDatabase(){
+
+        List<Notes> noteEntities=new ArrayList<>();
+
+        noteEntities.add(new Notes(getDate(0),SAMPLE_TEXT1));
+        noteEntities.add(new Notes(getDate(-1),SAMPLE_TEXT2));
+        noteEntities.add(new Notes(getDate(-2),SAMPLE_TEXT3));
 
         return noteEntities;
     }

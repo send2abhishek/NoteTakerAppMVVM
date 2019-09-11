@@ -2,10 +2,14 @@ package com.attra.notetakerappmvvm.viewModels;
 
 import android.app.Application;
 import android.arch.lifecycle.AndroidViewModel;
+import android.arch.lifecycle.LiveData;
 import android.support.annotation.NonNull;
+
+import com.attra.notetakerappmvvm.Database.Notes;
 import com.attra.notetakerappmvvm.Models.NoteEntity;
 import com.attra.notetakerappmvvm.Repository.AppRepository;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class MainActivityViewModel extends AndroidViewModel {
@@ -13,11 +17,25 @@ public class MainActivityViewModel extends AndroidViewModel {
 
     public MainActivityViewModel(@NonNull Application application) {
         super(application);
-        appRepository=AppRepository.getInstance();
+        appRepository=AppRepository.getInstance(application.getApplicationContext());
+
     }
 
-    public List<NoteEntity> getActiveNotes(){
+    public LiveData<List<Notes>> getActiveNotes(){
 
-        return appRepository.getNotes();
+
+        //return appRepository.getNotes();
+
+
+
+        return appRepository.getNotesFromDatabase();
     }
+
+    public void AddSampleDataToDatabase(){
+
+        appRepository.AddSampleData();
+
+    }
+
+
 }

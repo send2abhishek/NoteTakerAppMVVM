@@ -19,9 +19,9 @@ public class EditorActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.editor_activity);
         content=findViewById(R.id.activity_editor_textview);
-        NoteEntity entity=getIntent().getParcelableExtra("data");
-        Log.d("Aryan", "onCreate: "+ entity.getText());
-
-        content.setText(entity.getText());
+//        NoteEntity entity=getIntent().getParcelableExtra("data");
+//        Log.d("Aryan", "onCreate: "+ entity.getText());
+//
+//        content.setText(entity.getText());
     }
 }

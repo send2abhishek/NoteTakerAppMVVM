@@ -1,5 +1,6 @@
 package com.attra.notetakerappmvvm.Database;
 
+import android.arch.lifecycle.LiveData;
 import android.arch.persistence.room.Dao;
 import android.arch.persistence.room.Delete;
 import android.arch.persistence.room.Insert;
@@ -28,7 +29,7 @@ public interface NotesDAO {
 
 
     @Query("SELECT * FROM notes ORDER by date DESC")
-    List<Notes> getNoteById();
+    LiveData<List<Notes>> getNoteAll();
 
     @Query("SELECT COUNT(*) FROM notes")
     int getNotesCount();
