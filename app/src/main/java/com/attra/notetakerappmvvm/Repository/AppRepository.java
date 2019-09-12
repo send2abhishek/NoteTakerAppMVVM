@@ -48,4 +48,14 @@ public class AppRepository {
             }
         });
     }
+
+    public void deleteAllNotes(final Notes note){
+
+        executor.execute(new Runnable() {
+            @Override
+            public void run() {
+                notesDatabase.notesDAO().deleteNote(note);
+            }
+        });
+    }
 }
